@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        select:invalid {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="bi bi-hospital-fill">
+            <a class="navbar-brand" href="#">Serviço de Urgencia</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#gerar">Gerar solicitação</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#atender">Atender Solicitação</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#cadastrar">Cadastrar médico</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#historico">Histórico de pacientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#apresentacao">Apresentação do projeto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link bi bi-github" href="#"> Código no Github</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section id="gerar" class="d-flex justify-content-center mt-5" style="height: calc(100vh - 120px);">
+    <div class="border p-5 rounded" style="min-width: 500px;">
+        <form action="/api/solicitante/post" method="post" id="formGerarChamado">
+            <div>
+                <h1 class="h2 mb-3 text-center">Gerar chamado</h1>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="number" class="form-control" id="telefone" name="telefone"  minlength="8" maxlength="11" required>
+                <label for="telefone">Telefone</label>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="text" class="form-control" id="nome" name="nome"  minlength="4" required>
+                <label for="nome">Nome do solicitante</label>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="text" class="form-control" id="logradouro" name="logradouro" minlength="4" required>
+                <label for="logradouro">Logradouro</label>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="text" class="form-control" id="bairro" name="bairro" minlength="4" required>
+                <label for="bairro">Bairro</label>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="text" class="form-control" id="cidade" name="cidade" minlength="4" required>
+                <label for="cidade">Cidade</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="pontoReferencia" minlength="3" name="pontoReferencia">
+                <label for="pontoReferencia">Ponto de referencia</label>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-success" onclick="gerarChamado()">Gerar</button>
+            </div>
+        </form>
+        <div>
+            <div>
+                <p id="mensagem" class="text-center"></p>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary" onclick="ativarChamado()" id="btnAtivarChamado" style="display: none">Ok</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="atender" class="d-flex justify-content-center mt-5" style="height: calc(100vh - 120px);">
+    <div class="border p-5 rounded" style="min-width: 500px">
+        <div>
+            <h2 class="text-center">Atender chamado</h2>
+        </div>
+        <div id="dadosAtender">
+        </div>
+        <div>
+            <div>
+                <p id="mensagemAtualizacao" class="text-center"></p>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary" onclick="ativarDadosAtender()" id="btnAtivarAtualizacao" style="display: none">Ok</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="cadastrar" class="d-flex justify-content-center mt-5" style="height: calc(100vh - 120px);">
+    <div class="border p-5 rounded" style="min-width: 500px">
+        <form action="/api/medico/post" method="post" id="formCadastrarMedico">
+            <div>
+                <h2 class="h2 mb-3 text-center">Cadastrar médico</h2>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="text" class="form-control" id="medicoNome" name="medicoNome"  minlength="4" required>
+                <label for="medicoNome">Nome do médico</label>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="date" class="form-control" id="dataNasicmento" name="dataNasicmento" required>
+                <label for="dataNasicmento">Data de nascimento</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="cargo" name="cargo" minlength="4">
+                <label for="cargo">Cargo</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" name="email" minlength="4">
+                <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="medicoTelefone" name="medicoTelefone" minlength="8" maxlength="11">
+                <label for="medicoTelefone">Telefone</label>
+            </div>
+            <div class="form-floating mb-3"> *
+                <input type="text" class="form-control" id="crm" minlength="3" name="crm" required>
+                <label for="crm">CRM</label>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-success" onclick="cadastrarMedico()">Cadastrar</button>
+            </div>
+        </form>
+        <div>
+            <div>
+                <p id="mensagemMedico" class="text-center"></p>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary" onclick="ativarCadastroMed()" id="btnAtivarCadastroMed" style="display: none">Ok</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="historico" class="d-flex justify-content-center mt-5" style="height: calc(100vh - 120px);">
+    <div class="border p-5 rounded" style="min-width: 500px">
+        <div>
+            <h2 class="text-center">Histórico de pacientes</h2>
+        </div>
+        <div id="dadosHistorico">
+        </div>
+    </div>
+</section>
+
+<section id="apresentacao" class="d-flex justify-content-center mt-5 mb-5" style="height: calc(100vh - 120px);">
+    <div class="border p-5 rounded" style="min-width: 500px; max-width: 500px;">
+        <h2>Apresentação do projeto</h2>
+        <p style="text-align: justify">Meu projeto foi desenvolvido em Spark com uso de javascript no projeto para tratar diversas visualizações e envio de dados. O objetivo foi a criação de um sistema de gerenciamento de urgência e emergência, o qual um atendente preenche os dados de um solicitante que está solicitando via telefone um atendimento com caráter de urgência. O atendente preenche os dados do solicitante para envio de socorro. Quando o socorro chega no local ele retorna a ligação para o atendente para passar o médico responsável e o diagnóstico médico. Caso o médico não esteja cadastrado, o atendente deve registra-lo no sistema. Por fim, após essa atualização, os dados do solicitante são arquivados, ainda podendo ser visualizados na seção histórico do paciente.</p>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="script.js"></script>
+</body>
+</html>
