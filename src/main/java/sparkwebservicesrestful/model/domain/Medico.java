@@ -84,4 +84,10 @@ public class Medico extends Funcionario {
     public void setTelefone(String telefone) {
         super.setTelefone(telefone);
     }
+
+    // Método que verifica se o CRM é válido
+    public boolean validarCrm(String crm) {
+        // Verifica se o CRM não é nulo e tem um formato válido
+        return crm != null && crm.matches("[A-Z]{2}\\d{4,}");
+    }
 }

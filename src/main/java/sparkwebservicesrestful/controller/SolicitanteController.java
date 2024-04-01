@@ -44,8 +44,11 @@ public class SolicitanteController {
         String pontoReferencia = req.queryParams("pontoReferencia");
         
         Solicitante solicitante = new Solicitante(telefone, nome, logradouro, bairro, cidade, pontoReferencia);
-        SolicitanteService.criar(solicitante);
         
+        if(!solicitante.validarEndereco()){
+            return "Solicitante não criado: Endereço inválido";
+        }
+        SolicitanteService.criar(solicitante);
         return "Chamado gerado com sucesso";
     };
     
@@ -56,8 +59,12 @@ public class SolicitanteController {
         
         Medico medico = MedicoService.obterMedico(idMedico);
         Solicitante solicitante = new Solicitante(diagnostico, medico);
+
+        if(!solicitante.validarDiagnostico(solicitante.getDiagnostico())) {
+            return "Diagnóstico inválido: solicitante nao atualizado";
+        }
+
         SolicitanteService.atualizarSolicitante(idSolicitante, solicitante);
-        
         return "Ficha atualizada";
     };
     

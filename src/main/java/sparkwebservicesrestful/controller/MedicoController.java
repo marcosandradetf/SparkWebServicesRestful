@@ -27,8 +27,13 @@ public class MedicoController {
         String crm = req.queryParams("crm");
         
         Medico medico = new Medico(nome, dataNasicmento, cargo, email, telefone, crm);
-        MedicoService.criar(medico);
         
+
+        if (!medico.validarCrm(medico.getCrm())) {
+            return "Médico não cadastrado com sucesso: CRM inválido (Exemplo de formato: AA1234)";
+        }
+        
+        MedicoService.criar(medico);
         return "Médico cadastrado com sucesso";
     };
     

@@ -109,4 +109,8 @@ public class Solicitante extends Endereco{
     public void addSolicitante(Solicitante solicitante) {
         super.addSolicitante(solicitante);
     }
+
+    public boolean validarDiagnostico(String diagnostico) {
+        return diagnostico != null && diagnostico.length() >= 4;
+    }
 }

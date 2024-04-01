@@ -72,4 +72,11 @@ public class Endereco {
     public void addSolicitante(Solicitante solicitante) {
         this.solicitantes.add(solicitante);
     }
+
+    // Método que verifica se o endereço é válido
+    public boolean validarEndereco() {
+        return logradouro != null && !logradouro.isEmpty() &&
+                bairro != null && !bairro.isEmpty() &&
+                cidade != null && !cidade.isEmpty();
+    }
 }

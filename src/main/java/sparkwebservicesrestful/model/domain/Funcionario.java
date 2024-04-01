@@ -67,4 +67,9 @@ public class Funcionario {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+    
+    public boolean validarEmail(String email) {
+        // Verifica se o e-mail não é nulo e contém "@" e "."
+        return email != null && email.contains("@") && email.contains(".");
+    }
 }
