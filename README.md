@@ -1,3 +1,11 @@
+Para executar:
+
+1 - Clone o projeto
+2 - Via terminal navegue até a raíz do projeto
+3 - Execute ./gradlew build 
+4 - Execute ./gradlew run
+
+------------------------------------------------------------
 ## Aluno: Marcos Andrade
 ## Curso: Engenharia de Computação
 ## Instituição: Instituto Infnet
